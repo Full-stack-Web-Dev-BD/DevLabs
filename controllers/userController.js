@@ -26,26 +26,24 @@ module.exports = {
             // Prepare email content with clickable links
             const subject = 'New Lead Notification';
 
-            // Get current date and time
+            // Get current date and time in Bangladesh Standard Time (BST)
             const now = new Date();
-            const formattedDate = now.toLocaleDateString('en-US', {
+            const options = {
+                timeZone: 'Asia/Dhaka',
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
-            });
-            const formattedTime = now.toLocaleTimeString('en-US', {
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit',
                 hour12: true,
-            });
+            };
+            const formattedDateTime = now.toLocaleString('en-US', options);
 
             const body = `
                 <div style="font-family: Arial, sans-serif; color: #333;">
-                    <h2 style="color: #4CAF50;">New Lead Received</h2>
-                    <p><strong>Date:</strong> ${formattedDate}</p>
-                    <p><strong>Time:</strong> ${formattedTime}</p>
+                    <h2 style="color: #4CAF50;">New Lead Received - ${formattedDateTime}</h2>
                     <hr />
                     <p><strong>Name:</strong> ${name}</p>
                     <p><strong>Email:</strong> <a href="mailto:${email}" style="color: #4CAF50;">${email}</a></p>
@@ -62,6 +60,7 @@ module.exports = {
                     <p><strong>DevUnicornLabs Inc.</strong></p>
                 </div>
             `;
+
 
 
             // Send email to the team
