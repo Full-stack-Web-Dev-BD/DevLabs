@@ -74,4 +74,31 @@ module.exports = {
             res.status(500).json({ message: 'Error creating lead', error: error.message });
         }
     },
+
+    getAllLeads: async (req, res) => {
+        try {
+            const secCode = req.body.code
+            if (secCode == 6894) {
+                // Fetch all leads from the database
+                const leads = await Lead.find().sort({ createdAt: -1 }); // Sort by newest first
+
+                // Check if no leads exist
+                if (!leads.length) {
+                    return res.status(404).json({ message: 'No leads found' });
+                }
+
+                // Respond with the list of leads
+                res.status(200).json(leads);
+            } else {
+                return res.json({ message: 'validatoin failed' })
+            }
+        } catch (error) {
+            // Handle errors
+            console.error('Error fetching leads:', error);
+            res.status(500).json({
+                message: 'An error occurred while fetching leads',
+                error: error.message,
+            });
+        }
+    },
 };
